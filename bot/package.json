@@ -1,0 +1,23 @@
+{
+    "name": "marcus-bot",
+    "version": "0.1",
+    "description": "A smart bot that guides through some HR-related topics and more",
+    "main": "bin/hubot",
+    "private": false,
+    "scripts": {
+      "debug": "node --inspect --inspect-brk -r dotenv/config node_modules/hubot/bin/hubot.js -a rocketchat",
+      "shell": "node -r dotenv/config node_modules/hubot/bin/hubot.js -a shell",
+      "local": "node -r dotenv/config node_modules/hubot/bin/hubot.js -a rocketchat"
+    },
+    "dependencies": {
+      "request": "^2.87.0",
+      "request-promise": "^4.2.2",
+      "coffeescript": "^2.2.2",
+      "hubot": "3",
+      "hubot-rocketchat": "rocketchat/hubot-rocketchat"
+    },
+    "devDependencies": {
+      "dotenv": "^5.0.1"
+    }
+  }
+  
