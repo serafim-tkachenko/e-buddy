@@ -53,6 +53,8 @@ services:
     volumes:
      - ./data/db:/data/db
     command: mongod --oplogSize 128 --replSet rs0 --storageEngine=wiredTiger
+    ports: 
+      - 27017:27017
     # labels:
     #   - "traefik.enable=false"
 
@@ -73,6 +75,17 @@ services:
         done; (exit $$s)"
     depends_on:
       - mongo
+
+  mongo-init-scripts:
+    image: mongo:5.0
+    restart: on-failure
+    links:
+      - mongo
+    volumes:
+      - ./init:/init_scripts
+    command: /bin/bash -c "/init_scripts/mongo-init.sh"
+    depends_on:
+      - mongo-init-replica 
 
   rest-service:
     build: ./rest-service 
