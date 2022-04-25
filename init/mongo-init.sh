@@ -24,7 +24,7 @@ mongo service_db --host mongo --eval "db.createUser({ user: \"service_user\", pw
 echo "Service user was added."
 
 echo "Adding required collections if needed..."
-mongo service_db --host mongo --eval "db.createCollection(\"employees\");" 
+mongo service_db --host mongo --eval "db.createCollection(\"employee\");" 
 echo "All required collections were added."
 
 echo "All Mongo DB initialization scripts passed"

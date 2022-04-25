@@ -21,6 +21,11 @@ tasks.withType<KotlinCompile> {
     }
 }
 
+// This is temporary needed while we are using local Docker deployments
+tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
+    this.archiveFileName.set("app.${archiveExtension.get()}")
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
@@ -31,6 +36,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")

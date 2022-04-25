@@ -1,14 +1,31 @@
-const hiUrl = "http://rest-service:8080/hi";
+"use strict";
+
+const getOrCreateEmloyeeUrl = "http://rest-service:8080/getOrCreateEmployee";
 
 module.exports = (robot) => {
-  robot.respond(/(hello|hi)/gi, (res) => {
-    console.log('Message was successfully processed');
+
+  robot.respond(/(.*)/i, (res) => {
+    let userId = res.message.user.id; // here it's believed that all these fields are mandatory and not nulls    
+    if (robot.brain.get(userId)) {
+      console.log(`User's authentication was retrieved from cache by id: ${userId}`);
+      return;
+    } 
+    let payload = JSON.stringify({
+      id: userId,
+      name: res.message.user.name
+    });
     new Promise((resolve, reject) =>
-      robot.http(hiUrl).get()((err, response, body) =>
-        err ? reject(err) : resolve(body)
-      )
-    ).then(body => {console.log('Inside the promise', body); res.reply(`The received message is: ${body}`); return;})
-    .catch(err => res.reply(`Error has been encountered: ${err}`))
-  })
+      robot.http(getOrCreateEmloyeeUrl)
+        .header('Content-Type', 'application/json')
+        .put(payload)((err, response, body) =>
+          err ? reject(err) : resolve(body)
+        )
+    ).then(body => {
+      let employee = JSON.parse(body);
+      res.reply(`Hi! You was successfully authorized with ID : ${employee.id}`);
+      robot.brain.set(employee.id, employee); // this should be ammended by some useful data
+    })
+      .catch(err => res.reply(`Error has been encountered: ${err}`))
+  });
 
 }
