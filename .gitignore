@@ -4,6 +4,12 @@
 data
 uploads
 
+rest-service/.gradle
+rest-service/build
+
+# IDEA related folders
+.idea
+
 # Created by https://www.gitignore.io/api/vim,node,macos,linux
 
 ### Linux ###
